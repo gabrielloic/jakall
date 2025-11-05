@@ -1,0 +1,90 @@
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 60px;
+    height: 80vh;
+  }
+  
+  .hero-left {
+    flex: 1;
+  }
+  
+  .hero-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .hero-right img {
+    width: 100%;
+    max-width: 550px;
+    height: auto;
+    border-radius: 10px;
+    opacity: 1;
+    transition: opacity 1s ease-in-out; /* effet fondu doux */
+  }
+  
+  /* Animation du texte typewriter */
+  .typewriter p {
+    font-family: monospace;
+    font-size: 4rem;
+    font-weight: 800;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid black;
+    display: inline-block;
+    animation: clignote 0.75s step-end infinite alternate;
+    color: #111;
+  }
+  
+  @keyframes clignote {
+    from { border-color: transparent; }
+    to { border-color: black; }
+  }
+  
+  /* Effet fondu lors du changement d'image */
+  .fade img {
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  
+  @media (min-width: 768px) {
+      .hero {
+          flex-direction: row;
+      }
+  }
+  
+  .hero-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+      line-height: 1.1;
+      padding: 20px; 
+  }
+  
+  
+  
+  @media (max-width: 768px) {
+      .hero-left p {
+          font-size: 8vw; 
+      }
+  
+      .hero-latest-btn {
+          font-size: 1.2rem; 
+          width: 90%; 
+      }
+  
+      .hero-right img {
+          width: 100%; 
+          height: auto; 
+      }
+  }

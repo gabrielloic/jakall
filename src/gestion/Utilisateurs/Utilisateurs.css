@@ -1,0 +1,208 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+.moncompte-page {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #1e3c72, #2a5298); /* bleu foncé */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 15px;
+  color: #333;
+}
+
+/* --- Conteneur principal --- */
+.moncompte-container {
+  background: #f5f7fa;
+  border-radius: 25px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  padding: 35px;
+  max-width: 1200px;
+  width: 100%;
+  animation: fadeIn 0.8s ease;
+}
+
+/* --- Carte profil --- */
+.profile-card {
+  background: linear-gradient(145deg, #4facfe, #00f2fe); /* bleu clair dégradé */
+  color: #fff;
+  border-radius: 20px;
+  padding: 30px 20px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.profile-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+}
+
+.profile-avatar {
+  background: white;
+  color: #4facfe;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto 0 15px 0;
+  font-size: 50px;
+}
+
+.profile-card h3 {
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.profile-card .email {
+  font-size: 14px;
+  color: #e0f0ff;
+  margin-bottom: 15px;
+}
+
+/* --- Boutons personnalisés --- */
+.btn-primary-custom,
+.btn-secondary-custom,
+.btn-success-custom,
+.btn-cancel-custom {
+  border: none;
+  border-radius: 12px;
+  padding: 12px 20px;
+  width: 100%;
+  margin-top: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 14px;
+}
+
+.btn-primary-custom {
+  background-color: #ffffff;
+  color: #4facfe;
+}
+.btn-primary-custom:hover {
+  background-color: #e6f3ff;
+}
+
+.btn-secondary-custom {
+  background-color: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+.btn-secondary-custom:hover {
+  background-color: rgba(255, 255, 255, 0.35);
+}
+
+.btn-success-custom {
+  background: #00c851; /* vert pour confirmer */
+  color: white;
+}
+.btn-success-custom:hover {
+  background: #007e33;
+}
+
+.btn-cancel-custom {
+  background: #ff4444; /* rouge pour annuler */
+  color: white;
+}
+.btn-cancel-custom:hover {
+  background: #cc0000;
+}
+
+/* --- Input fields --- */
+.input-group {
+  background: #ffffff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transition: 0.3s;
+}
+.input-group:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+.input-group input {
+  border: none;
+  outline: none;
+  flex: 1;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 8px;
+}
+.input-group .icon {
+  color: #4facfe;
+  margin-right: 8px;
+}
+
+/* --- Section commandes --- */
+.orders-card {
+  background: #e9f2ff; /* bleu très clair */
+  border-radius: 20px;
+  padding: 30px 20px;
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.05);
+}
+.orders-card h4 {
+  font-weight: 700;
+  color: #0073e6; /* bleu foncé pour le titre */
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.orders-card table {
+  width: 100%;
+}
+.orders-card table th,
+.orders-card table td {
+  vertical-align: middle !important;
+}
+
+.order-row {
+  transition: 0.3s;
+  cursor: default;
+}
+.order-row:hover {
+  background: rgba(0, 127, 255, 0.08);
+  transform: translateX(3px);
+}
+
+/* --- Responsive --- */
+@media (max-width: 992px) {
+  .profile-card {
+    margin-bottom: 25px;
+  }
+}
+
+@media (max-width: 576px) {
+  .moncompte-container {
+    padding: 25px 15px;
+  }
+
+  .profile-avatar {
+    width: 80px;
+    height: 80px;
+    font-size: 40px;
+  }
+
+  .orders-card table th,
+  .orders-card table td {
+    font-size: 12px;
+  }
+}
+
+/* --- Animations --- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

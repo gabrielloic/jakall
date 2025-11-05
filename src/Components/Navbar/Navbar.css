@@ -1,0 +1,104 @@
+.navbar{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 16px 40px;
+    box-shadow: 0 1px 3px -2px black;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: black;
+    z-index: 1000;
+}
+
+.nav-logo{
+    display: flex;
+    align-items: center;
+    gap: 80px;
+}
+
+.nav-menu{
+     display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.nav-login {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.nav-logo img {
+    width: 200px;
+    height: 100px;
+}
+
+.nav-menu ul {
+    display: flex;
+    gap: 3px;
+    padding: 0;
+    margin: 0;
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.nav-menu li{
+    cursor: pointer;
+    list-style: none;
+    font-style: oblique;
+    color: aliceblue;
+}
+
+.nav-login img{
+    width: 80px;
+    height: 80px;
+}
+
+.nav-login button{
+    background-color: red;
+    color: white;
+    cursor: pointer;
+    transition: border-color 0.25s;
+    border-radius: 75px;
+    font-size: 20px;
+    font-weight: 500;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    outline: none;
+}
+
+.nav-login button:active{
+    background-color: aliceblue;
+    color: aqua;
+}
+
+
+.nav-menu hr{
+    border: none;
+    width: 80%;
+    height: 3px;
+    border-radius: 10px;
+    background: red;
+}
+
+.nav-panier-count{
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    margin-top: -35px;
+    margin-left: -70px;
+    border-radius: 11px;
+    font-size: 14px;
+    background: red;
+    color: white;
+}
+.recherche button{
+    background-color: black ;
+    cursor: pointer;
+    border: none;
+}
+.recherche{
+    background-color: black;
+}
