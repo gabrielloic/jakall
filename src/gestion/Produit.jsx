@@ -5,6 +5,8 @@ import ProductCategoryRow from "./Produitt/ProductCategoryRow";
 import ProductRow from "./Produitt/ProduitRow";
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Input from "./input.jsx";
+
 
 const Produits = [
   { categorie: "SPORT", prix: "2.000.000", stocked: true, noms: "MERCEDES-BENZ" },
