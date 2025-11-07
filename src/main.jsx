@@ -1,36 +1,36 @@
-
+// src/main.jsx
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Cart from "./Pages/Commande/Carte";
-import Checkout from "./Pages/Commande/Checkout";
-import MonCompte from "./gestion/Utilisateurs/Utilisateurs";
-import Login from "./Pages/LoginSignup";
+import Searchbar from "./gestion/Produit";
 
-// Pages
 
-const App = () => {
-return (
-<BrowserRouter>
-<Routes>
-{/* Page panier */}
-<Route path="/" element={<Cart />} />
 
-{/* Page paiement */}
-<Route path="/checkout" element={<Checkout />} />
+function App() {
+  return (
+    <BrowserRouter>
+      {/* === Barre de navigation simple === */}
+      <nav className="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+        <div className="container">
+          <Link to="/" className="navbar-brand fw-bold">
+            🚗 AutoCatalog
+          </Link>
+        </div>
+      </nav>
 
-{/* Page compte utilisateur */}
-<Route path="/moncompte" element={<MonCompte />} />
+      {/* === Routes principales === */}
+      <Routes>
+        {/* Page d’accueil : ton système de recherche */}
+        <Route path="/" element={<Searchbar />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
 
-{/* Page login */}
-<Route path="/login" element={<Login />} />
-</Routes>
-</BrowserRouter>
+// === Point d’entrée de l’application ===
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
 );
-};
-
-// Rend l'application
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App />);
-

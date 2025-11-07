@@ -1,12 +1,13 @@
-export default function ProductRow({product}){
-    // Utilise la bonne propriété : noms (et garde une sécurité)
-  const nom = product.noms ?? product.nom ?? "—";
-  const style = product.stocked ? {} : { color: "red" };
+export default function ProductRow({ product }) {
+  const nameStyle = {
+    color: product.stocked ? '#000' : 'red',
+    fontWeight: product.stocked ? '500' : '400',
+  };
 
   return (
     <tr>
-      <td style={style}>{nom}</td>
-      <td>{product.prix}</td>
+      <td style={nameStyle}>{product.noms}</td>
+      <td className="text-end">{product.prix}</td>
     </tr>
   );
 }
