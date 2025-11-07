@@ -56,7 +56,7 @@ const Discussion = () => {
           </h2>
 
           <p className="text-secondary mb-4">
-            Envoyez un message à un autre utilisateur. Soyez clair et courtois 😊
+            Envoyez un message pour toutes vos préoccupations. Soyez clair et courtois 😊
           </p>
 
           <div className="mb-3">

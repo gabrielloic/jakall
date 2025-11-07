@@ -1,0 +1,29 @@
+.card {
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.checkout-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive mobile */
+@media (max-width: 768px) {
+  .checkout-container {
+    padding: 20px;
+  }
+
+  .card {
+    padding: 15px !important;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
+  }
+}
