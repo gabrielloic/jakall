@@ -1,34 +1,20 @@
-// src/main.jsx
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Searchbar from "./gestion/Produit";
+import AdminDashboard from "./Pages/Administration/AdminDashboard.jsx";
 
 
-
-function App() {
+const App = () => {
   return (
     <BrowserRouter>
-      {/* === Barre de navigation simple === */}
-      <nav className="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
-        <div className="container">
-          <Link to="/" className="navbar-brand fw-bold">
-            🚗 AutoCatalog
-          </Link>
-        </div>
-      </nav>
-
-      {/* === Routes principales === */}
       <Routes>
-        {/* Page d’accueil : ton système de recherche */}
-        <Route path="/" element={<Searchbar />} />
+        <Route path="/" element={<AdminDashboard />} />
       </Routes>
     </BrowserRouter>
   );
-}
+};
 
-// === Point d’entrée de l’application ===
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <App />

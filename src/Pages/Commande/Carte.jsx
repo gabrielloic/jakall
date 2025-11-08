@@ -1,196 +1,265 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import Chart from "chart.js/auto";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { ShoppingCart, Trash2, Plus, Minus, CreditCard } from "lucide-react";
-import { voitures } from "../../gestion/Voitures";
 
-export default function Cart() {
-  const navigate = useNavigate();
-  const { state } = useLocation();
-  const userFromState =
-    state?.user || JSON.parse(localStorage.getItem("userData"));
+const AdminDashboard = () => {
+  const [code, setCode] = useState("");
+  const [authenticated, setAuthenticated] = useState(false);
+  const [tab, setTab] = useState("produits");
+  const [produits, setProduits] = useState([]);
+  const [nom, setNom] = useState("");
+  const [prix, setPrix] = useState("");
+  const [stock, setStock] = useState(true);
+  const [categorie, setCategorie] = useState("AUTRE");
+  const [image, setImage] = useState("");
 
-  // --- PANIER STOCKÉ LOCAL ---
-  const [cart, setCart] = useState(() => {
-    const saved = localStorage.getItem("cart_v1");
-    return saved ? JSON.parse(saved) : [];
-  });
+  // === Simulation d’un code d’accès admin ===
+  const CODE_ADMIN = "1234";
 
-  // --- SAUVEGARDE AUTOMATIQUE DU PANIER ---
+  // === Gestion de l'ajout d'un produit ===
+  const ajouterProduit = () => {
+    if (!nom || !prix) {
+      alert("Veuillez entrer le nom et le prix du produit.");
+      return;
+    }
+
+    const nouveauProduit = {
+      id: Date.now(),
+      nom,
+      prix,
+      stock,
+      categorie,
+      image,
+    };
+
+    setProduits([...produits, nouveauProduit]);
+    setNom("");
+    setPrix("");
+    setStock(true);
+    setCategorie("AUTRE");
+    setImage("");
+  };
+
+  // === Suppression d’un produit ===
+  const supprimerProduit = (id) => {
+    setProduits(produits.filter((p) => p.id !== id));
+  };
+
+  // === Graphique (affiché uniquement dans l’onglet Statistiques) ===
   useEffect(() => {
-    localStorage.setItem("cart_v1", JSON.stringify(cart));
-  }, [cart]);
+    if (tab !== "stats") return;
 
-  // --- AJOUT PRODUIT ---
-  const addProduct = (p) => {
-    setCart((prev) => {
-      const found = prev.find((x) => x.id === p.id);
-      if (found) {
-        return prev.map((x) =>
-          x.id === p.id ? { ...x, qty: x.qty + 1 } : x
-        );
-      }
-      return [...prev, { ...p, qty: 1 }];
+    const ctx = document.getElementById("salesChart");
+    if (!ctx) return;
+
+    const chart = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: ["Jan", "Fév", "Mars", "Avr", "Mai", "Juin"],
+        datasets: [
+          {
+            label: "Ventes mensuelles (FCFA)",
+            data: [1200000, 900000, 1500000, 800000, 2000000, 1300000],
+            backgroundColor: "rgba(13, 110, 253, 0.6)",
+            borderColor: "rgba(13, 110, 253, 1)",
+            borderWidth: 1,
+            borderRadius: 5,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: (val) => val.toLocaleString() + " FCFA",
+            },
+          },
+        },
+      },
     });
-  };
 
-  // --- RETIRER 1 PRODUIT ---
-  const removeOne = (id) => {
-    setCart((prev) =>
-      prev
-        .map((x) => (x.id === id ? { ...x, qty: x.qty - 1 } : x))
-        .filter((x) => x.qty > 0)
+    return () => chart.destroy();
+  }, [tab]);
+
+  // === Si non authentifié ===
+  if (!authenticated) {
+    return (
+      <div className="container text-center mt-5">
+        <h3>🔒 Espace Administrateur</h3>
+        <p>Veuillez entrer le code d’accès :</p>
+        <input
+          type="password"
+          className="form-control w-25 mx-auto mb-3"
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+        />
+        <button
+          className="btn btn-primary"
+          onClick={() => {
+            if (code === CODE_ADMIN) setAuthenticated(true);
+            else alert("Code incorrect");
+          }}
+        >
+          Se connecter
+        </button>
+      </div>
     );
-  };
+  }
 
-  // --- SUPPRIMER UN PRODUIT ENTIER ---
-  const removeItem = (id) => {
-    setCart((prev) => prev.filter((x) => x.id !== id));
-  };
-
-  // --- CALCUL TOTAL PANIER ---
-  const subtotal = cart.reduce((s, it) => s + (it.prix || 0) * (it.qty || 0), 0);
-
-  // --- REDIRECTION VERS CHECKOUT ---
-  const gotoCheckout = () => {
-    navigate("/checkout", { state: { cart, user: userFromState, total: subtotal } });
-  };
-
+  // === Tableau de bord ===
   return (
-    <div className="container my-5 p-4 rounded-4 shadow bg-white">
-      {/* === HEADER === */}
-      <div className="d-flex flex-wrap justify-content-between align-items-center mb-4">
-        <div className="d-flex align-items-center gap-2">
-          <ShoppingCart size={28} className="text-primary" />
-          <h2 className="fw-bold text-primary mb-0">Mon Panier</h2>
-        </div>
-        {userFromState && (
-          <div className="small text-muted mt-2 mt-md-0">
-            Connecté en tant que <strong>{userFromState.username}</strong>
-          </div>
-        )}
-      </div>
+    <div className="container mt-4">
+      <h2 className="text-center mb-4">📊 Tableau de bord Administrateur</h2>
 
-      <div className="row g-4">
-        {/* === PRODUITS DISPONIBLES === */}
-        <div className="col-lg-8">
-          <h4 className="fw-semibold text-secondary mb-3">Nos Véhicules</h4>
-          <div className="row g-4">
-            {voitures.map((p) => (
-              <div className="col-12 col-sm-6 col-md-4" key={p.id}>
-                <div className="card border-0 shadow-sm h-100 text-center p-3 rounded-4">
-                  <img
-                    src={p.image || "/assets/o.jpg"}
-                    alt={p.nom}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "/assets/o.jpg";
-                    }}
-                    className="img-fluid rounded-3 mb-3"
-                    style={{
-                      width: "100%",
-                      height: "160px",
-                      objectFit: "cover",
-                      objectPosition: "center",
-                      backgroundColor: "#f8f9fa",
-                    }}
-                  />
-                  <h5 className="fw-bold">{p.nom}</h5>
-                  <p className="text-muted small mb-1">{p.categorie}</p>
-                  <p className="text-secondary small mb-2 text-truncate">
-                    {p.description}
-                  </p>
-                  <p className="fw-semibold text-primary mb-3">
-                    {p.prix.toLocaleString()} FCFA
-                  </p>
-                  <button
-                    className="btn btn-outline-primary w-100 rounded-3"
-                    onClick={() => addProduct(p)}
-                  >
-                    Ajouter au panier
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+      {/* Onglets de navigation */}
+      <ul className="nav nav-tabs mb-4">
+        <li className="nav-item">
+          <button
+            className={`nav-link ${tab === "produits" ? "active" : ""}`}
+            onClick={() => setTab("produits")}
+          >
+            Produits
+          </button>
+        </li>
+        <li className="nav-item">
+          <button
+            className={`nav-link ${tab === "ajouter" ? "active" : ""}`}
+            onClick={() => setTab("ajouter")}
+          >
+            Ajouter
+          </button>
+        </li>
+        <li className="nav-item">
+          <button
+            className={`nav-link ${tab === "stats" ? "active" : ""}`}
+            onClick={() => setTab("stats")}
+          >
+            Statistiques
+          </button>
+        </li>
+      </ul>
 
-        {/* === RÉSUMÉ DU PANIER === */}
-        <div className="col-lg-4">
-          <div className="card border-0 shadow-sm p-4 rounded-4 bg-light h-100">
-            <h4 className="text-primary fw-bold mb-3 text-center">Résumé</h4>
-
-            {cart.length === 0 ? (
-              <p className="text-muted text-center">Votre panier est vide 🛒</p>
-            ) : (
-              <>
-                <div className="list-group mb-3">
-                  {cart.map((it) => (
-                    <div
-                      key={it.id}
-                      className="list-group-item d-flex justify-content-between align-items-center border-0 mb-2 rounded-3"
-                      style={{ backgroundColor: "#fdfdfd" }}
-                    >
-                      <div>
-                        <strong>{it.nom}</strong>
-                        <div className="text-muted small">
-                          {it.prix.toLocaleString()} FCFA
-                        </div>
-                      </div>
-                      <div className="d-flex align-items-center gap-2">
-                        <button
-                          className="btn btn-sm btn-outline-secondary"
-                          onClick={() => removeOne(it.id)}
+      {/* --- Onglet Produits --- */}
+      {tab === "produits" && (
+        <div>
+          {produits.length === 0 ? (
+            <p className="text-muted text-center">Aucun produit ajouté.</p>
+          ) : (
+            <div className="row">
+              {produits.map((p) => (
+                <div className="col-md-4 mb-4" key={p.id}>
+                  <div className="card shadow-sm">
+                    {p.image && (
+                      <img
+                        src={p.image}
+                        className="card-img-top"
+                        alt={p.nom}
+                        style={{ height: "180px", objectFit: "cover" }}
+                      />
+                    )}
+                    <div className="card-body">
+                      <h5 className="card-title">{p.nom}</h5>
+                      <p className="card-text">{p.prix} FCFA</p>
+                      <p>
+                        <span
+                          className={`badge ${
+                            p.stock ? "bg-success" : "bg-danger"
+                          }`}
                         >
-                          <Minus size={14} />
-                        </button>
-                        <span className="fw-bold">{it.qty}</span>
-                        <button
-                          className="btn btn-sm btn-outline-secondary"
-                          onClick={() => addProduct(it)}
-                        >
-                          <Plus size={14} />
-                        </button>
-                        <button
-                          className="btn btn-sm btn-outline-danger"
-                          onClick={() => removeItem(it.id)}
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      </div>
+                          {p.stock ? "En stock" : "Rupture"}
+                        </span>
+                      </p>
+                      <p className="text-muted small">{p.categorie}</p>
+                      <button
+                        className="btn btn-outline-danger btn-sm"
+                        onClick={() => supprimerProduit(p.id)}
+                      >
+                        Supprimer
+                      </button>
                     </div>
-                  ))}
+                  </div>
                 </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
-                <div className="border-top pt-3 mb-3 d-flex justify-content-between">
-                  <span className="fw-semibold">Sous-total :</span>
-                  <span className="fw-bold text-primary">
-                    {subtotal.toLocaleString()} FCFA
-                  </span>
-                </div>
+      {/* --- Onglet Ajouter --- */}
+      {tab === "ajouter" && (
+        <div className="card p-4 shadow-sm">
+          <h4>Ajouter un produit</h4>
+          <div className="mb-3">
+            <label className="form-label">Nom :</label>
+            <input
+              type="text"
+              className="form-control"
+              value={nom}
+              onChange={(e) => setNom(e.target.value)}
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Prix :</label>
+            <input
+              type="number"
+              className="form-control"
+              value={prix}
+              onChange={(e) => setPrix(e.target.value)}
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Catégorie :</label>
+            <select
+              className="form-select"
+              value={categorie}
+              onChange={(e) => setCategorie(e.target.value)}
+            >
+              <option value="SPORT">SPORT</option>
+              <option value="TECH">TECH</option>
+              <option value="MODE">MODE</option>
+              <option value="AUTRE">AUTRE</option>
+            </select>
+          </div>
+          <div className="form-check form-switch mb-3">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              checked={stock}
+              onChange={(e) => setStock(e.target.checked)}
+            />
+            <label className="form-check-label">
+              Disponible en stock
+            </label>
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Image (URL) :</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Ex: /assets/produit1.jpg ou https://exemple.com/image.jpg"
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
+            />
+          </div>
+          <button className="btn btn-success" onClick={ajouterProduit}>
+            ➕ Ajouter le produit
+          </button>
+        </div>
+      )}
 
-                <button
-                  className="btn btn-primary w-100 mb-2 rounded-3 py-2"
-                  onClick={gotoCheckout}
-                >
-                  <CreditCard size={18} className="me-2" />
-                  Passer au paiement
-                </button>
-
-                <button
-                  className="btn btn-outline-danger w-100 rounded-3"
-                  onClick={() => {
-                    setCart([]);
-                    localStorage.removeItem("cart_v1");
-                  }}
-                >
-                  Vider le panier
-                </button>
-              </>
-            )}
+      {/* --- Onglet Statistiques --- */}
+      {tab === "stats" && (
+        <div className="card p-4 shadow-sm">
+          <h4>Statistiques de ventes</h4>
+          <div style={{ width: "100%", height: "300px" }}>
+            <canvas id="salesChart"></canvas>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
-}
+};
+
+export default AdminDashboard;
