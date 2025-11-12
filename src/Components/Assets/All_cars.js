@@ -1,10 +1,15 @@
-import voiture from './voiture.jpg';
+import voiture from './voiture.jpg'; import v1 from './1.jpg'; import v2 from './2.jpg'; import v3 from './3.jpg'; import v4 from './4.jpg'; 
+import v5 from './5.jpg'; import v6 from './6.jpg'; import v7 from './7.jpg'; import v8 from './8.jpg'; import v9 from './9.jpg';
+import v10 from './10.jpg'; import v11 from './11.jpg'; import v12 from './12.jpg'; import v13 from './13.jpg'; import v14 from './14.jpg';
+import v15 from './15.jpg';import v16 from './16.jpg'; import v17 from './17.jpg'; import v18 from './18.jpg'; import v19 from './19.jpg';
+import v20 from './20.jpg'; import v21 from './21.jpg'; import v22 from './22.jpg'; import v23 from './23.jpg'; import v24 from './24.jpg'; 
+import v25 from './25.jpg'; import v26 from './26.jpg'; import v27 from './27.jpg'; import v28 from './28.jpg';
 
 let all_cars = [
     {
         "id": 1,
         "nom": "Toyota Corolla GT",
-        "image": voiture,
+        "image": v1,
         "prix": 15819,
         "categorie": "Hatchback",
         "description": "Toyota Corolla GT est un hatchback fiable équipé de technologies modernes et d'aides à la conduite.",
@@ -13,7 +18,7 @@ let all_cars = [
     {
         "id": 2,
         "nom": "Honda Civic",
-        "image": voiture,
+        "image": v2,
         "prix": 39144,
         "categorie": "Coupe",
         "description": "Honda Civic est un coupe fiable compact et pratique pour la ville.",
@@ -22,7 +27,7 @@ let all_cars = [
     {
         "id": 3,
         "nom": "Volkswagen Golf",
-        "image": voiture,
+        "image": v3,
         "prix": 34349,
         "categorie": "Hatchback",
         "description": "Volkswagen Golf est un hatchback fiable avec une bonne économie de carburant.",
@@ -31,7 +36,7 @@ let all_cars = [
     {
         "id": 4,
         "nom": "Ford Focus",
-        "image": voiture,
+        "image": v4,
         "prix": 26140,
         "categorie": "Sedan",
         "description": "Ford Focus est un sedan fiable équipé de technologies modernes et d'aides à la conduite.",
@@ -40,7 +45,7 @@ let all_cars = [
     {
         "id": 5,
         "nom": "Hyundai Elantra",
-        "image": voiture,
+        "image": v5,
         "prix": 26739,
         "categorie": "Hybrid",
         "description": "Hyundai Elantra est un hybrid fiable équipé de technologies modernes et d'aides à la conduite.",
@@ -49,7 +54,7 @@ let all_cars = [
     {
         "id": 6,
         "nom": "BMW 3 Series",
-        "image": voiture,
+        "image": v6,
         "prix": 52493,
         "categorie": "Hybrid",
         "description": "BMW 3 Series est un hybrid fiable orienté performance, pour les amateurs de conduite.",
@@ -58,7 +63,7 @@ let all_cars = [
     {
         "id": 7,
         "nom": "Mercedes C-Class",
-        "image": voiture,
+        "image": v7,
         "prix": 215852,
         "categorie": "Sports",
         "description": "Mercedes C-Class est un sports fiable avec des performances solides et une tenue de route agréable.",
@@ -67,7 +72,7 @@ let all_cars = [
     {
         "id": 8,
         "nom": "Audi A4 Premium",
-        "image": voiture,
+        "image": v8,
         "prix": 36149,
         "categorie": "Minivan",
         "description": "Audi A4 Premium est un minivan fiable avec des performances solides et une tenue de route agréable.",
@@ -76,7 +81,7 @@ let all_cars = [
     {
         "id": 9,
         "nom": "Kia Sportage",
-        "image": voiture,
+        "image": v9,
         "prix": 80036,
         "categorie": "Coupe",
         "description": "Kia Sportage est un coupe fiable idéal pour la famille et les trajets quotidiens.",
@@ -85,7 +90,7 @@ let all_cars = [
     {
         "id": 10,
         "nom": "Nissan Qashqai",
-        "image": voiture,
+        "image": v10,
         "prix": 27449,
         "categorie": "Hatchback",
         "description": "Nissan Qashqai est un hatchback fiable offrant un excellent rapport qualité-prix.",
@@ -94,7 +99,7 @@ let all_cars = [
     {
         "id": 11,
         "nom": "Toyota RAV4",
-        "image": voiture,
+        "image": v11,
         "prix": 64565,
         "categorie": "Pickup",
         "description": "Toyota RAV4 est un pickup fiable avec une bonne économie de carburant.",
@@ -103,7 +108,7 @@ let all_cars = [
     {
         "id": 12,
         "nom": "Honda CR-V 2025",
-        "image": voiture,
+        "image": v12,
         "prix": 100284,
         "categorie": "Electric",
         "description": "Honda CR-V 2025 est un electric fiable avec des finitions haut de gamme.",
@@ -112,7 +117,7 @@ let all_cars = [
     {
         "id": 13,
         "nom": "Mazda CX-5",
-        "image": voiture,
+        "image": v13,
         "prix": 33089,
         "categorie": "Hatchback",
         "description": "Mazda CX-5 est un hatchback fiable avec une motorisation électrique/éco-friendly.",
@@ -121,7 +126,7 @@ let all_cars = [
     {
         "id": 14,
         "nom": "Jeep Wrangler",
-        "image": voiture,
+        "image": v14,
         "prix": 62837,
         "categorie": "Pickup",
         "description": "Jeep Wrangler est un pickup fiable idéal pour la famille et les trajets quotidiens.",
@@ -130,7 +135,7 @@ let all_cars = [
     {
         "id": 15,
         "nom": "Ford Mustang GT",
-        "image": voiture,
+        "image": v15,
         "prix": 34935,
         "categorie": "Sedan",
         "description": "Ford Mustang GT est un sedan fiable idéal pour la famille et les trajets quotidiens.",
@@ -139,7 +144,7 @@ let all_cars = [
     {
         "id": 16,
         "nom": "Chevrolet Camaro",
-        "image": voiture,
+        "image": v16,
         "prix": 86785,
         "categorie": "Coupe",
         "description": "Chevrolet Camaro est un coupe fiable avec des finitions haut de gamme.",
@@ -148,7 +153,7 @@ let all_cars = [
     {
         "id": 17,
         "nom": "Porsche 911",
-        "image": voiture,
+        "image": v17,
         "prix": 94429,
         "categorie": "Convertible",
         "description": "Porsche 911 est un convertible fiable offrant un excellent rapport qualité-prix.",
@@ -157,7 +162,7 @@ let all_cars = [
     {
         "id": 18,
         "nom": "Tesla Model 3",
-        "image": voiture,
+        "image": v18,
         "prix": 81566,
         "categorie": "SUV",
         "description": "Tesla Model 3 est un suv fiable au design élégant et intérieur confortable.",
@@ -166,7 +171,7 @@ let all_cars = [
     {
         "id": 19,
         "nom": "Tesla Model Y",
-        "image": voiture,
+        "image": v19,
         "prix": 118227,
         "categorie": "Hatchback",
         "description": "Tesla Model Y est un hatchback fiable compact et pratique pour la ville.",
@@ -175,7 +180,7 @@ let all_cars = [
     {
         "id": 20,
         "nom": "Renault Clio",
-        "image": voiture,
+        "image": v20,
         "prix": 40708,
         "categorie": "Coupe",
         "description": "Renault Clio est un coupe fiable avec des finitions haut de gamme.",
@@ -184,7 +189,7 @@ let all_cars = [
     {
         "id": 21,
         "nom": "Peugeot 208",
-        "image": voiture,
+        "image": v21,
         "prix": 118886,
         "categorie": "Convertible",
         "description": "Peugeot 208 est un convertible fiable équipé de technologies modernes et d'aides à la conduite.",
@@ -193,7 +198,7 @@ let all_cars = [
     {
         "id": 22,
         "nom": "Opel Astra Premium",
-        "image": voiture,
+        "image": v22,
         "prix": 28665,
         "categorie": "Pickup",
         "description": "Opel Astra Premium est un pickup fiable avec une bonne économie de carburant.",
@@ -202,7 +207,7 @@ let all_cars = [
     {
         "id": 23,
         "nom": "Mini Cooper 2025",
-        "image": voiture,
+        "image": v23,
         "prix": 51290,
         "categorie": "Pickup",
         "description": "Mini Cooper 2025 est un pickup fiable idéal pour la famille et les trajets quotidiens.",
@@ -211,7 +216,7 @@ let all_cars = [
     {
         "id": 24,
         "nom": "Subaru Impreza",
-        "image": voiture,
+        "image": v24,
         "prix": 89843,
         "categorie": "Coupe",
         "description": "Subaru Impreza est un coupe fiable offrant un excellent rapport qualité-prix.",
@@ -220,7 +225,7 @@ let all_cars = [
     {
         "id": 25,
         "nom": "Skoda Octavia",
-        "image": voiture,
+        "image": v25,
         "prix": 72954,
         "categorie": "Coupe",
         "description": "Skoda Octavia est un coupe fiable avec des finitions haut de gamme.",
@@ -229,7 +234,7 @@ let all_cars = [
     {
         "id": 26,
         "nom": "Volvo XC60",
-        "image": voiture,
+        "image": v26,
         "prix": 48726,
         "categorie": "Electric",
         "description": "Volvo XC60 est un electric fiable avec des performances solides et une tenue de route agréable.",
@@ -238,7 +243,7 @@ let all_cars = [
     {
         "id": 27,
         "nom": "Lexus RX",
-        "image": voiture,
+        "image": v27,
         "prix": 78823,
         "categorie": "Coupe",
         "description": "Lexus RX est un coupe fiable compact et pratique pour la ville.",
@@ -247,7 +252,7 @@ let all_cars = [
     {
         "id": 28,
         "nom": "Infiniti Q50",
-        "image": voiture,
+        "image": v28,
         "prix": 111622,
         "categorie": "Convertible",
         "description": "Infiniti Q50 est un convertible fiable avec une motorisation électrique/éco-friendly.",

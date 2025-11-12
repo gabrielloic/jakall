@@ -1,0 +1,87 @@
+.explore-category {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0 5vw;
+    text-align: center;
+    background: linear-gradient(135deg, #42a5f5, #0d1b2a);
+}
+
+.explore-category h1 {
+    color: #0d1b2a; /* bleu nuit */
+    font-weight: 500;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+}
+
+.explore-category-text {
+    max-width: 800px;
+    margin: 0 auto;
+    color: #b0c4de;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+}
+
+.explore-category-list {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 25px;
+    margin: 20px 0px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding-bottom: 15px;
+}
+
+.explore-category-list::-webkit-scrollbar {
+    display: none;
+}
+
+.explore-category-list-items {
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+    color: #90caf9;
+    font-size: max(1.4vw, 14px);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.explore-category-list-items img {
+    width: clamp(80px, 10vw, 120px);
+    height: clamp(80px, 10vw, 120px);
+    cursor: pointer;
+    border-radius: 50%;
+    transition: transform 0.3s ease, border 0.3s ease;
+    object-fit: cover;
+}
+
+.explore-category-list-items img:hover {
+    transform: scale(1.08);
+}
+
+.explore-category-list-items img.active {
+    border: 4px solid #1565c0; /* accent bleu vif */
+    padding: 2px;
+}
+
+.explore-category hr {
+    margin: 10px 0px;
+    height: 2px;
+    background-color: #0d1b2a;
+    border: none;
+}
+
+/* Tablettes */
+@media (max-width: 900px) {
+    .explore-category-list { gap: 20px; }
+}
+
+/* Petits téléphones */
+@media (max-width: 600px) {
+    .explore-category { padding: 0 3vw; }
+    .explore-category-list { gap: 15px; }
+    .explore-category-list-items img { width: 70px; height: 70px; }
+    .explore-category-list-items p { font-size: 12px; }
+}

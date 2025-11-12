@@ -1,90 +1,70 @@
 .hero {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 60px;
-    height: 80vh;
-  }
-  
-  .hero-left {
-    flex: 1;
-  }
-  
-  .hero-right {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .hero-right img {
-    width: 100%;
-    max-width: 550px;
-    height: auto;
-    border-radius: 10px;
-    opacity: 1;
-    transition: opacity 1s ease-in-out; /* effet fondu doux */
-  }
-  
-  /* Animation du texte typewriter */
-  .typewriter p {
-    font-family: monospace;
-    font-size: 4rem;
-    font-weight: 800;
-    white-space: nowrap;
-    overflow: hidden;
-    border-right: 3px solid black;
-    display: inline-block;
-    animation: clignote 0.75s step-end infinite alternate;
-    color: #111;
-  }
-  
-  @keyframes clignote {
-    from { border-color: transparent; }
-    to { border-color: black; }
-  }
-  
-  /* Effet fondu lors du changement d'image */
-  .fade img {
-    animation: fadeIn 1s ease-in-out;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  
-  @media (min-width: 768px) {
-      .hero {
-          flex-direction: row;
-      }
-  }
-  
-  .hero-left {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 20px;
-      line-height: 1.1;
-      padding: 20px; 
-  }
-  
-  
-  
-  @media (max-width: 768px) {
-      .hero-left p {
-          font-size: 8vw; 
-      }
-  
-      .hero-latest-btn {
-          font-size: 1.2rem; 
-          width: 90%; 
-      }
-  
-      .hero-right img {
-          width: 100%; 
-          height: auto; 
-      }
-  }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 60px;
+  height: 80vh;
+  flex-wrap: wrap;
+  gap: 30px;
+  background: linear-gradient(135deg, #42a5f5, #0d1b2a);
+}
+
+.hero-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  line-height: 1.1;
+  padding: 20px;
+}
+
+.hero-left p {
+  color: #0d1b2a; /* bleu nuit pour texte principal */
+}
+
+.hero-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-right img {
+  width: 100%;
+  max-width: 550px;
+  height: auto;
+  border-radius: 10px;
+  opacity: 1;
+  transition: opacity 1s ease-in-out;
+}
+
+.typewriter p {
+  font-family: monospace;
+  font-size: 4rem;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid #0d1b2a; /* bleu nuit */
+  display: inline-block;
+  animation: clignote 0.75s step-end infinite alternate;
+}
+
+@keyframes clignote {
+  from { border-color: transparent; }
+  to { border-color: #0d1b2a; }
+}
+
+.fade img { animation: fadeIn 1s ease-in-out; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Responsive */
+@media (max-width: 992px) { .hero { padding: 40px; height: auto; } .typewriter p { font-size: 3rem; } }
+@media (max-width: 768px) {
+  .hero { flex-direction: column-reverse; align-items: center; text-align: center; padding: 30px 20px; height: auto; }
+  .hero-left { align-items: center; padding: 10px; }
+  .typewriter p { font-size: 8vw; border-right: 2px solid #0d1b2a; }
+  .hero-right img { width: 90%; max-width: 400px; margin-bottom: 20px; }
+}
+@media (max-width: 480px) { .hero { padding: 20px 10px; } .typewriter p { font-size: 9vw; } .hero-right img { width: 100%; max-width: 350px; } }

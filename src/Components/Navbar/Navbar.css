@@ -1,104 +1,122 @@
-.navbar{
+.navbar {
     display: flex;
     justify-content: space-around;
     align-items: center;
     padding: 16px 40px;
-    box-shadow: 0 1px 3px -2px black;
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: black;
+    background: rgba(13, 27, 42, 0.95); /* bleu nuit semi-translucide */
+    backdrop-filter: blur(8px);
+    color: var(--text-light);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     z-index: 1000;
+    transform: translateY(-110%);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease;
 }
 
-.nav-logo{
+.navbar.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.nav-logo {
     display: flex;
     align-items: center;
-    gap: 80px;
+    gap: 40px;
+    flex-wrap: wrap;
 }
 
-.nav-menu{
-     display: flex;
+.nav-logo img {
+    width: 150px;
+    height: auto;
+}
+
+.nav-menu {
+    display: flex;
     align-items: center;
-    gap: 50px;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.nav-menu li {
+    list-style: none;
+    cursor: pointer;
+    font-style: oblique;
+    color: var(--text-light);
+    font-size: 1rem;
 }
 
 .nav-login {
     display: flex;
     align-items: center;
-    gap: 40px;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
-.nav-logo img {
-    width: 200px;
-    height: 100px;
-}
-
-.nav-menu ul {
-    display: flex;
-    gap: 3px;
-    padding: 0;
-    margin: 0;
-    font-size: 10px;
-    font-weight: 500;
-}
-
-.nav-menu li{
+.nav-login button {
+    background: linear-gradient(135deg, #42a5f5, #1565c0);
+    color: #fff;
     cursor: pointer;
-    list-style: none;
-    font-style: oblique;
-    color: aliceblue;
-}
-
-.nav-login img{
-    width: 80px;
-    height: 80px;
-}
-
-.nav-login button{
-    background-color: red;
-    color: white;
-    cursor: pointer;
-    transition: border-color 0.25s;
     border-radius: 75px;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    outline: none;
-}
-
-.nav-login button:active{
-    background-color: aliceblue;
-    color: aqua;
-}
-
-
-.nav-menu hr{
     border: none;
-    width: 80%;
-    height: 3px;
-    border-radius: 10px;
-    background: red;
+    padding: 0.5em 1em;
+    outline: none;
+    transition: 0.3s ease;
+}
+.nav-login button:hover{
+    background: linear-gradient(135deg, #64b5f6, #0d1b2a);
+}
+
+.recherche button,
+.nav-monCompte button {
+    background-color: transparent;
+    border: none;
+}
+
+.nav-login img {
+    width: 60px;
+    height: 60px;
 }
 
 .nav-panier-count{
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     display: flex;
     justify-content: center;
+    align-items: center;
     margin-top: -35px;
-    margin-left: -70px;
-    border-radius: 11px;
-    font-size: 14px;
-    background: red;
+    margin-left: -30px;
+    border-radius: 50%;
+    font-size: 10px;
+    background-color: red;
     color: white;
 }
-.recherche button{
-    background-color: black ;
-    cursor: pointer;
-    border: none;
+
+/* -------- Responsive -------- */
+@media (max-width: 992px) {
+    .nav-menu li { font-size: 0.9rem; }
+    .nav-login button { font-size: 16px; padding: 0.4em 0.8em; }
+    .nav-logo img { width: 120px; }
+    .nav-login img { width: 50px; height: 50px; }
 }
-.recherche{
-    background-color: black;
+
+@media (max-width: 768px) {
+    .nav-logo { gap: 20px; justify-content: center; }
+    .nav-menu { gap: 15px; justify-content: center; }
+    .nav-login { gap: 10px; justify-content: center; margin-top: 5px; }
+    .nav-menu li { font-size: 0.8rem; }
+    .nav-login button { font-size: 14px; padding: 0.3em 0.6em; }
+    .nav-logo img { width: 100px; }
+    .nav-login img { width: 40px; height: 40px; }
+}
+
+@media (max-width: 480px) {
+    .nav-menu li { font-size: 0.7rem; }
+    .nav-login button { font-size: 12px; padding: 0.25em 0.5em; }
+    .nav-logo img { width: 80px; }
+    .nav-login img { width: 30px; height: 30px; }
 }

@@ -1,14 +1,53 @@
-.dispositionVoitures{
+.dispositionVoitures {
     margin-top: 30px;
+    padding: 0 5vw; /* léger padding horizontal pour éviter que les voitures collent aux bords */
 }
-.dispositionVoitures h2{
-    font-size: max(2vw,24px);
+
+.dispositionVoitures h2 {
+    font-size: clamp(20px, 2.5vw, 32px); /* taille fluide entre mobile et grand écran */
     font-weight: 600;
+    text-align: center; /* centrage pour meilleur équilibre sur petits écrans */
+    margin-bottom: 20px;
 }
-.cars-display-list{
+
+.cars-display-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill,minmax(240px,1fr));
-    margin-top: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 30px;
     row-gap: 50px;
+}
+
+/* ----------- Responsive tweaks ----------- */
+
+/* Tablettes */
+@media (max-width: 1024px) {
+    .cars-display-list {
+        gap: 25px;
+        row-gap: 40px;
+    }
+}
+
+/* Mobiles moyens */
+@media (max-width: 768px) {
+    .dispositionVoitures {
+        padding: 0 4vw;
+    }
+
+    .cars-display-list {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 20px;
+        row-gap: 30px;
+    }
+}
+
+/* Petits mobiles */
+@media (max-width: 480px) {
+    .dispositionVoitures h2 {
+        font-size: 20px;
+    }
+
+    .cars-display-list {
+        grid-template-columns: 1fr; /* une seule voiture par ligne */
+        gap: 20px;
+    }
 }

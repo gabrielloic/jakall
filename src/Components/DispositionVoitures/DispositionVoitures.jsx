@@ -6,7 +6,7 @@ import Item from '../Item/Item'
 
 
 
-const DispositionVoitures = (category) => {
+const DispositionVoitures = ({category}) => {
 
     const { all_cars } = useContext(ShopContext)
 
@@ -15,7 +15,10 @@ const DispositionVoitures = (category) => {
             <h2>LES MEILLEURES VOITURES PRES DE VOUS</h2>
             <div className="cars-display-list">
                 {all_cars.map((item, index) =>{
-                    return <Item key={index} id={item.id} nom={item.nom} image={item.image} categorie={item.categorie} description={item.description} couleur={item.couleur} prix={item.prix}  />
+                    if(category="All"|| category===item.category){
+                        return <Item key={index} id={item.id} nom={item.nom} image={item.image} categorie={item.categorie} description={item.description} couleur={item.couleur} prix={item.prix}  />
+                    }
+
                 })}
             </div>
         </div>

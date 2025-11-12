@@ -1,67 +1,53 @@
-import voiture from './voiture.jpg'
+import v1 from './1.jpg'; import v2 from './2.jpg'; import v4 from './4.jpg';
+import v6 from './6.jpg'; import v7 from './7.jpg'; import v8 from './8.jpg';
+ import v11 from './11.jpg'; import v12 from './12.jpg'; import v17 from './17.jpg';
+ import v18 from './18.jpg'
+ 
+ 
 
-let data_product = [
+
+export const menu_list = [
     {
-        id: 1,
-        nom: "Mercedes ...",
-        image: voiture,
-        prix: 5000000,
+        nomMenu: "Hatchback",
+        imageMenu: v1
     },
     {
-        id: 2,
-        nom: "Mercedes ...",
-        image: voiture,
-        prix: 5000000,
+        nomMenu: "Coupe",
+        imageMenu: v2,
     },
     {
-        id: 3,
-        nom: "Mercedes ...",
-        image: voiture,
-        prix: 5000000,
+        nomMenu: "Sedan",
+        imageMenu: v4,
     },
     {
-        id: 4,
-        nom: "Mercedes ...",
-        image: voiture,
-        prix: 5000000,
+        nomMenu: "Hybrid",
+        imageMenu: v6
     },
     {
-        id: 4,
-        nom: "Mercedes ...",
-        image: voiture,
-        prix: 5000000,
+        nomMenu: "Sport",
+        imageMenu: v7,
     },
     {
-        id: 5,
-        nom: "Mercedes ...",
-        image: voiture,
-        prix: 5000000,
+        nomMenu: "Minivan",
+        imageMenu: v8,
     },
     {
-        id: 6,
-        nom: "Mercedes ...",
-        image: voiture,
-        prix: 5000000,
+        nomMenu: "Pickup",
+        imageMenu: v11,
+    },
+     {
+        nomMenu: "Electric",
+        imageMenu: v12,
     },
     {
-        id: 7,
-        nom: "Mercedes ...",
-        image: voiture,
-        prix: 5000000,
+        nomMenu: "Convertible",
+        imageMenu: v17,
     },
-    {
-        id: 8,
-        nom: "Mercedes ...",
-        image: voiture,
-        prix: 5000000,
+     {
+        nomMenu: "SUV",
+        imageMenu: v18,
     },
-    {
-        id: 9,
-        nom: "Mercedes ...",
-        image: voiture,
-        prix: 5000000,
-    },
+   
+
     
 ];
-
-export default data_product
