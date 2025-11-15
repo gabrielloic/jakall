@@ -1,4 +1,3 @@
-// src/Pages/Administration/AdminDashboard.jsx
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
@@ -7,6 +6,11 @@ import {
   ShoppingBag,
   Plus,
   Trash2,
+  Upload,
+  Send,
+  MessageCircle,
+  User,
+  Clock,
 } from "lucide-react";
 import { Bar } from "react-chartjs-2";
 import {
@@ -19,48 +23,42 @@ import {
   Legend,
 } from "chart.js";
 
-// === Enregistrement des composants du graphique ===
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 export default function AdminDashboard() {
-  const [tab, setTab] = useState("produits");
   const [produits, setProduits] = useState([]);
   const [commandes, setCommandes] = useState([]);
+  const [messages, setMessages] = useState([]);
+  const [reponsesAdmin, setReponsesAdmin] = useState([]);
   const [newProduit, setNewProduit] = useState({
     nom: "",
     prix: "",
     categorie: "",
     description: "",
-    image: "",
+    image: null,
   });
 
-  // === Vérification du code d’accès admin ===
+  // === Sécurité admin ===
   const [isAuthorized, setIsAuthorized] = useState(false);
   useEffect(() => {
     const code = prompt("🔐 Entrez le code administrateur :");
-    if (code === "1234") {
-      setIsAuthorized(true);
-    } else {
+    if (code === "1234") setIsAuthorized(true);
+    else {
       alert("❌ Code incorrect !");
       window.location.href = "/";
     }
   }, []);
 
-  // === Chargement des produits ===
+  // === Chargement initial ===
   useEffect(() => {
-    const saved = localStorage.getItem("voitures");
-    if (saved) {
-      setProduits(JSON.parse(saved));
-    } else {
-      fetch("http://localhost/backend/get_voitures.php")
-        .then((r) => r.json())
-        .then((data) => setProduits(data))
-        .catch(() => setProduits([]));
-    }
-  }, []);
+    const savedProduits = localStorage.getItem("voitures");
+    if (savedProduits) setProduits(JSON.parse(savedProduits));
 
-  // === Chargement des commandes ===
-  useEffect(() => {
+    const storedMessages = JSON.parse(localStorage.getItem("messages") || "[]");
+    const storedReponses = JSON.parse(localStorage.getItem("reponsesAdmin") || "[]");
+    setMessages(storedMessages);
+    setReponsesAdmin(storedReponses);
+
     fetch("http://localhost/backend/get_all_commandes.php")
       .then((r) => r.json())
       .then((data) => setCommandes(data.commandes || []))
@@ -70,16 +68,31 @@ export default function AdminDashboard() {
   // === Ajouter un produit ===
   const addProduit = () => {
     if (!newProduit.nom || !newProduit.prix) {
-      alert("⚠️ Veuillez remplir au minimum le nom et le prix !");
+      alert("⚠️ Veuillez remplir le nom et le prix !");
       return;
     }
-    const updated = [...produits, { ...newProduit, id: Date.now() }];
+
+    const imageURL = newProduit.image
+      ? URL.createObjectURL(newProduit.image)
+      : "/assets/o.jpg";
+
+    const updated = [
+      ...produits,
+      { ...newProduit, id: Date.now(), image: imageURL },
+    ];
+
     setProduits(updated);
     localStorage.setItem("voitures", JSON.stringify(updated));
-    setNewProduit({ nom: "", prix: "", categorie: "", description: "", image: "" });
+    setNewProduit({
+      nom: "",
+      prix: "",
+      categorie: "",
+      description: "",
+      image: null,
+    });
   };
 
-  // === Supprimer un produit ===
+  // === Supprimer produit ===
   const deleteProduit = (id) => {
     if (!window.confirm("🗑️ Supprimer ce produit ?")) return;
     const updated = produits.filter((p) => p.id !== id);
@@ -87,7 +100,25 @@ export default function AdminDashboard() {
     localStorage.setItem("voitures", JSON.stringify(updated));
   };
 
-  // === Données pour le graphique ===
+  // === Réponse admin ===
+  const handleSendResponse = (i, sender) => {
+    const input = document.getElementById(`reponse-${i}`);
+    const rep = input.value.trim();
+    if (!rep) return alert("✏️ Écris une réponse !");
+    const newRep = {
+      to: sender,
+      message: rep,
+      date: new Date().toLocaleString(),
+      read: false,
+    };
+    const updatedReps = [...reponsesAdmin, newRep];
+    localStorage.setItem("reponsesAdmin", JSON.stringify(updatedReps));
+    setReponsesAdmin(updatedReps);
+    input.value = "";
+    alert("✅ Réponse envoyée à l'utilisateur !");
+  };
+
+  // === Données graphiques ===
   const chartData = {
     labels: ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin"],
     datasets: [
@@ -111,51 +142,32 @@ export default function AdminDashboard() {
   if (!isAuthorized) return null;
 
   return (
-    <div className="container py-5">
+    <div className="container-fluid py-5 bg-light">
       <h2 className="fw-bold text-primary text-center mb-4">
         Tableau de bord Administrateur
       </h2>
 
-      {/* === NAVIGATION === */}
-      <div className="d-flex justify-content-center gap-3 mb-4">
-        <button
-          className={`btn ${tab === "produits" ? "btn-primary" : "btn-outline-primary"}`}
-          onClick={() => setTab("produits")}
-        >
-          <Package className="me-2" size={18} /> Produits
-        </button>
-        <button
-          className={`btn ${tab === "commandes" ? "btn-primary" : "btn-outline-primary"}`}
-          onClick={() => setTab("commandes")}
-        >
-          <ShoppingBag className="me-2" size={18} /> Commandes
-        </button>
-        <button
-          className={`btn ${tab === "stats" ? "btn-primary" : "btn-outline-primary"}`}
-          onClick={() => setTab("stats")}
-        >
-          <BarChart2 className="me-2" size={18} /> Statistiques
-        </button>
-      </div>
+      <div className="d-flex flex-wrap justify-content-around gap-3">
+        {/* === PRODUITS === */}
+        <div className="card shadow p-4 rounded-4" style={{ width: "30rem" }}>
+          <h4 className="text-primary mb-3">
+            <Package size={18} className="me-2" /> Produits
+          </h4>
 
-      {/* === ONGLET PRODUITS === */}
-      {tab === "produits" && (
-        <div className="card shadow p-4 rounded-4">
-          <h4 className="text-primary mb-3">➕ Ajouter un produit</h4>
-
-          {/* FORMULAIRE mieux espacé */}
-          <div className="bg-light p-4 rounded-4 mb-4">
-            <div className="row g-3">
-              <div className="col-md-3">
+          <div className="bg-light p-3 rounded-4 mb-3">
+            <div className="row g-3 align-items-end">
+              <div className="col-md-4">
                 <label className="form-label fw-semibold">Nom</label>
                 <input
                   className="form-control"
                   placeholder="Ex: Toyota Corolla"
                   value={newProduit.nom}
-                  onChange={(e) => setNewProduit({ ...newProduit, nom: e.target.value })}
+                  onChange={(e) =>
+                    setNewProduit({ ...newProduit, nom: e.target.value })
+                  }
                 />
               </div>
-              <div className="col-md-2">
+              <div className="col-md-3">
                 <label className="form-label fw-semibold">Prix (FCFA)</label>
                 <input
                   type="number"
@@ -163,35 +175,44 @@ export default function AdminDashboard() {
                   placeholder="Ex: 2 000 000"
                   value={newProduit.prix}
                   onChange={(e) =>
-                    setNewProduit({ ...newProduit, prix: parseInt(e.target.value) })
+                    setNewProduit({ ...newProduit, prix: e.target.value })
                   }
                 />
               </div>
-              <div className="col-md-2">
+              <div className="col-md-3">
                 <label className="form-label fw-semibold">Catégorie</label>
                 <input
                   className="form-control"
-                  placeholder="Ex: Sport"
+                  placeholder="Ex: SUV"
                   value={newProduit.categorie}
                   onChange={(e) =>
                     setNewProduit({ ...newProduit, categorie: e.target.value })
                   }
                 />
               </div>
-              <div className="col-md-3">
-                <label className="form-label fw-semibold">Image (URL)</label>
-                <input
-                  className="form-control"
-                  placeholder="Ex: /assets/voiture1.jpg"
-                  value={newProduit.image}
-                  onChange={(e) => setNewProduit({ ...newProduit, image: e.target.value })}
-                />
+              <div className="col-md-2">
+                <label className="form-label fw-semibold">Image</label>
+                <label className="btn btn-outline-secondary w-100">
+                  <Upload size={16} />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    hidden
+                    onChange={(e) =>
+                      setNewProduit({
+                        ...newProduit,
+                        image: e.target.files[0],
+                      })
+                    }
+                  />
+                </label>
               </div>
-              <div className="col-md-2 d-grid align-items-end">
-                <button className="btn btn-success" onClick={addProduit}>
-                  <Plus size={16} className="me-1" /> Ajouter
-                </button>
-              </div>
+            </div>
+
+            <div className="mt-3 d-grid">
+              <button className="btn btn-success" onClick={addProduit}>
+                <Plus size={16} className="me-1" /> Ajouter le produit
+              </button>
             </div>
           </div>
 
@@ -203,7 +224,7 @@ export default function AdminDashboard() {
                 <th>Nom</th>
                 <th>Catégorie</th>
                 <th>Prix</th>
-                <th>Actions</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -213,17 +234,15 @@ export default function AdminDashboard() {
                     <img
                       src={p.image || "/assets/o.jpg"}
                       alt={p.nom}
-                      style={{
-                        width: "60px",
-                        height: "40px",
-                        objectFit: "cover",
-                      }}
+                      width="60"
+                      height="40"
+                      style={{ objectFit: "cover" }}
                       className="rounded"
                     />
                   </td>
                   <td>{p.nom}</td>
                   <td>{p.categorie}</td>
-                  <td>{p.prix.toLocaleString()} FCFA</td>
+                  <td>{parseInt(p.prix).toLocaleString()} FCFA</td>
                   <td>
                     <button
                       className="btn btn-sm btn-outline-danger"
@@ -237,12 +256,13 @@ export default function AdminDashboard() {
             </tbody>
           </table>
         </div>
-      )}
 
-      {/* === ONGLET COMMANDES === */}
-      {tab === "commandes" && (
-        <div className="card shadow p-4 rounded-4">
-          <h4 className="text-primary mb-3">🧾 Liste des commandes</h4>
+        {/* === COMMANDES === */}
+        <div className="card shadow p-4 rounded-4" style={{ width: "30rem" }}>
+          <h4 className="text-primary mb-3">
+            <ShoppingBag size={18} className="me-2" /> Commandes
+          </h4>
+
           {commandes.length === 0 ? (
             <p className="text-muted text-center">Aucune commande enregistrée</p>
           ) : (
@@ -268,15 +288,90 @@ export default function AdminDashboard() {
             </table>
           )}
         </div>
-      )}
 
-      {/* === ONGLET STATISTIQUES === */}
-      {tab === "stats" && (
-        <div className="card shadow p-4 rounded-4">
-          <h4 className="text-primary mb-3">📈 Statistiques des ventes</h4>
+        {/* === STATISTIQUES === */}
+        <div className="card shadow p-4 rounded-4" style={{ width: "30rem" }}>
+          <h4 className="text-primary mb-3">
+            <BarChart2 size={18} className="me-2" /> Statistiques de ventes
+          </h4>
           <Bar data={chartData} options={chartOptions} />
         </div>
-      )}
+
+        {/* === MESSAGES UTILISATEURS === */}
+        <div
+          className="card shadow-lg p-4 rounded-5"
+          style={{
+            width: "30rem",
+            background: "white",
+          }}
+        >
+          <h4 className="text-primary mb-3 d-flex align-items-center gap-2">
+            <MessageCircle size={20} /> Messages Utilisateurs
+          </h4>
+          {messages.length === 0 ? (
+            <div className="text-center text-muted py-5">
+              <MessageCircle size={40} className="mb-2 text-secondary" />
+              <p>Aucun message reçu pour le moment.</p>
+            </div>
+          ) : (
+            <div
+              className="overflow-auto px-2"
+              style={{ maxHeight: "400px", scrollBehavior: "smooth" }}
+            >
+              {messages.map((msg, i) => (
+                <div
+                  key={i}
+                  className="p-3 mb-4 rounded-4 shadow-sm border"
+                  style={{ backgroundColor: "#fdfdfd" }}
+                >
+                  <div className="d-flex align-items-center gap-3 mb-2">
+                    <img
+                      src={
+                        msg.avatar ||
+                        "https://cdn-icons-png.flaticon.com/512/847/847969.png"
+                      }
+                      alt={msg.sender}
+                      className="rounded-circle border shadow-sm"
+                      width="55"
+                      height="55"
+                      style={{ objectFit: "cover" }}
+                    />
+                    <div>
+                      <h6 className="fw-bold mb-1 d-flex align-items-center gap-2">
+                        <User size={15} className="text-primary" /> {msg.sender}
+                      </h6>
+                      <p
+                        className="mb-1 text-secondary"
+                        style={{ fontSize: "0.95rem", lineHeight: "1.4" }}
+                      >
+                        {msg.message}
+                      </p>
+                      <small className="text-muted d-flex align-items-center gap-1">
+                        <Clock size={13} /> {msg.date}
+                      </small>
+                    </div>
+                  </div>
+
+                  <div className="mt-3 border-top pt-3">
+                    <input
+                      type="text"
+                      placeholder="✏️ Répondre à ce message..."
+                      className="form-control form-control-sm rounded-pill mb-2"
+                      id={`reponse-${i}`}
+                    />
+                    <button
+                      className="btn btn-primary btn-sm rounded-pill px-3 d-flex align-items-center gap-2"
+                      onClick={() => handleSendResponse(i, msg.sender)}
+                    >
+                      <Send size={15} /> Envoyer
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

@@ -13,7 +13,7 @@
     z-index: 1000;
     transform: translateY(-110%);
     opacity: 0;
-    transition: transform 0.4s ease, opacity 0.4s ease;
+    transition: transform 0.4s ease, opacity 1s ease;
 }
 
 .navbar.show {
@@ -55,7 +55,7 @@
     flex-wrap: wrap;
 }
 
-.nav-login button {
+.bouton-login{
     background: linear-gradient(135deg, #42a5f5, #1565c0);
     color: #fff;
     cursor: pointer;
@@ -67,14 +67,16 @@
     outline: none;
     transition: 0.3s ease;
 }
-.nav-login button:hover{
+.bouton-login:hover{
     background: linear-gradient(135deg, #64b5f6, #0d1b2a);
 }
 
 .recherche button,
-.nav-monCompte button {
+.nav-monCompte button,
+.bouton-panier {
     background-color: transparent;
     border: none;
+    cursor: pointer;
 }
 
 .nav-login img {
@@ -98,10 +100,12 @@
 
 /* -------- Responsive -------- */
 @media (max-width: 992px) {
-    .nav-menu li { font-size: 0.9rem; }
-    .nav-login button { font-size: 16px; padding: 0.4em 0.8em; }
-    .nav-logo img { width: 120px; }
-    .nav-login img { width: 50px; height: 50px; }
+    .nav-menu li { font-size: 0.7rem; }
+    .nav-login button { font-size: 16px; padding: 0.3em 0.6em; }
+    .nav-logo img { width: 100px; }
+    .recherche button,
+    .nav-monCompte button,
+    .bouton-panier{ width: 30px; height: 30px; }
 }
 
 @media (max-width: 768px) {
@@ -109,14 +113,18 @@
     .nav-menu { gap: 15px; justify-content: center; }
     .nav-login { gap: 10px; justify-content: center; margin-top: 5px; }
     .nav-menu li { font-size: 0.8rem; }
-    .nav-login button { font-size: 14px; padding: 0.3em 0.6em; }
-    .nav-logo img { width: 100px; }
-    .nav-login img { width: 40px; height: 40px; }
+    .nav-login button {  font-size: 14px; padding: 0.3em 0.6em; }
+    .nav-logo img { width: 60px; }
+    .recherche button,
+    .nav-monCompte button,
+    .bouton-panier { width: 25px; height: 25px; }
 }
 
 @media (max-width: 480px) {
-    .nav-menu li { font-size: 0.7rem; }
+    .nav-menu li { font-size: 0.4rem; }
     .nav-login button { font-size: 12px; padding: 0.25em 0.5em; }
-    .nav-logo img { width: 80px; }
-    .nav-login img { width: 30px; height: 30px; }
+    .nav-logo img { width: 40px; }
+    .recherche button,
+    .nav-monCompte button,
+    .bouton-panier { width: 16px; height: 16px; }
 }

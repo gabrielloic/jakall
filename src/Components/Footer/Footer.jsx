@@ -8,7 +8,7 @@ import logo_instagram from '../Assets/instagram.jpg';
 
 const Footer = () => {
   return (
-    <footer className="footer">
+    <footer className="footer" id='footer'>
       <div className="footer-left">
         <img src={logo} alt="Logo" className="logo-footer" />
       </div>
