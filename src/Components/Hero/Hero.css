@@ -1,70 +1,144 @@
-.hero {
+.home-wrapper {
+  width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 60px;
-  height: 80vh;
-  flex-wrap: wrap;
-  gap: 30px;
-  background: linear-gradient(135deg, #42a5f5, #0d1b2a);
+  justify-content: center;
+  background: linear-gradient(135deg, #0b1b2b, #0e334d);
+  padding: 60px 0;
 }
 
-.hero-left {
-  flex: 1;
+/* CONTAINER PRINCIPAL */
+.home-container {
+  width: 90%;
+  max-width: 1300px;
+  height: 80vh;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border-radius: 28px;
+  display: flex;
+  padding: 40px 60px;
+  color: white;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  animation: fadeContainer 1.2s ease;
+}
+
+@keyframes fadeContainer {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* GAUCHE */
+.home-left {
+  width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 20px;
+}
+
+.home-left h1 {
+  font-size: 65px;
+  font-weight: 800;
   line-height: 1.1;
-  padding: 20px;
 }
 
-.hero-left p {
-  color: #0d1b2a; /* bleu nuit pour texte principal */
+.home-left h1 span {
+  color: #3195ff;
 }
 
-.hero-right {
-  flex: 1;
+.home-left p {
+  width: 90%;
+  margin: 25px 0;
+  font-size: 18px;
+  opacity: 0.85;
+}
+
+/* BOUTON */
+.fancy-btn {
+  padding: 14px 32px;
+  font-size: 17px;
+  background: #3195ff;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: 0.4s ease;
+  box-shadow: 0 4px 15px rgba(49, 149, 255, 0.4);
+}
+
+.fancy-btn:hover {
+  transform: translateY(-4px);
+  background: #5bb3ff;
+  box-shadow: 0 8px 22px rgba(49, 149, 255, 0.45);
+}
+
+/* DROITE */
+.home-right {
+  width: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.hero-right img {
-  width: 100%;
-  max-width: 550px;
-  height: auto;
-  border-radius: 10px;
-  opacity: 1;
-  transition: opacity 1s ease-in-out;
+.home-right img {
+  width: 95%;
+  max-width: 650px;
+  border-radius: 22px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+  animation: zoomIn 1.5s ease;
 }
 
-.typewriter p {
-  font-family: monospace;
-  font-size: 4rem;
-  font-weight: 800;
-  white-space: nowrap;
-  overflow: hidden;
-  border-right: 3px solid #0d1b2a; /* bleu nuit */
-  display: inline-block;
-  animation: clignote 0.75s step-end infinite alternate;
+/* ANIMATIONS */
+@keyframes zoomIn {
+  from { transform: scale(0.85); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
 }
 
-@keyframes clignote {
-  from { border-color: transparent; }
-  to { border-color: #0d1b2a; }
+.slide-in {
+  animation: slideIn 1.2s ease forwards;
+  opacity: 0;
 }
 
-.fade img { animation: fadeIn 1s ease-in-out; }
-
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-/* Responsive */
-@media (max-width: 992px) { .hero { padding: 40px; height: auto; } .typewriter p { font-size: 3rem; } }
-@media (max-width: 768px) {
-  .hero { flex-direction: column-reverse; align-items: center; text-align: center; padding: 30px 20px; height: auto; }
-  .hero-left { align-items: center; padding: 10px; }
-  .typewriter p { font-size: 8vw; border-right: 2px solid #0d1b2a; }
-  .hero-right img { width: 90%; max-width: 400px; margin-bottom: 20px; }
+@keyframes slideIn {
+  from { transform: translateX(-50px); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
 }
-@media (max-width: 480px) { .hero { padding: 20px 10px; } .typewriter p { font-size: 9vw; } .hero-right img { width: 100%; max-width: 350px; } }
+
+.fade-in {
+  animation: fadeIn 1.5s ease forwards;
+  opacity: 0;
+}
+
+.fade-up {
+  animation: fadeUp 1.5s ease forwards;
+  opacity: 0;
+}
+
+@keyframes fadeUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .home-container {
+    flex-direction: column;
+    height: auto;
+    padding: 40px;
+  }
+
+  .home-left,
+  .home-right {
+    width: 100%;
+    text-align: center;
+  }
+
+  .home-left h1 {
+    font-size: 45px;
+  }
+
+  .home-right img {
+    width: 100%;
+    margin-top: 20px;
+  }
+}

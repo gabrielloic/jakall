@@ -1,32 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import './Navbar.css';
 import logo from '../Assets/logo.jpg';
-import panier from "../Assets/pp.jpg";
-import { Search, ShoppingCart } from 'lucide-react';
-import { UserCircle } from 'lucide-react';
+import { Search, ShoppingCart, UserCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Searchbar } from '../../Pages/gestion/Produit';
-import styles from './IconButton.module.css';
-
+import styles from './Navbar.module.css';
+import iconStyles from './IconButton.module.css';   // garde ton fichier d'icônes responsive
 
 const Navbar = () => {
     const [menu, setMenu] = useState("accueil");
     const [showNavbar, setShowNavbar] = useState(false);
 
-    // Affiche la navbar quand la souris approche du haut ou sur scroll
     useEffect(() => {
         const handleMouseMove = (e) => {
             if (e.clientY <= 50) setShowNavbar(true);
             else setShowNavbar(false);
         };
-
-        const handleTouchStart = () => {
-            setShowNavbar(true); // mobile : navbar visible au toucher
-        };
+        const handleTouchStart = () => setShowNavbar(true);
 
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('touchstart', handleTouchStart);
-
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('touchstart', handleTouchStart);
@@ -34,47 +25,42 @@ const Navbar = () => {
     }, []);
 
     return (
-        <div className={`navbar ${showNavbar ? 'show' : ''}`}>
+        <div className={`${styles.navbar} ${showNavbar ? styles.show : ''}`}>
 
-            <div className="nav-monCompte">
-                <button className="mon-compte-btn">
-                    <Link to='/moncompte'><UserCircle className={styles.responsiveIcon} /></Link>
+            {/* Mon compte à gauche */}
+            <div className={styles.navMonCompte}>
+                <button className={styles.monCompteBtn}>
+                    <Link to='/moncompte'>
+                        <UserCircle className={iconStyles.responsiveIcon} />
+                    </Link>
                 </button>
             </div>
 
-            <div className='nav-logo'>
-                <Link to='/'><img src={logo} alt="Logo" /></Link>
-                <ul className="nav-menu">
-                    <li onClick={() => setMenu("accueil")}>
-                        <Link to='/'>Accueil</Link>
-                        {menu === "accueil" ? <hr /> : null}
-                    </li>
-                    <li onClick={() => setMenu("categoriesVoitures")}>
-                        <a href='/#explore-category'>Catégories</a>
-                        {menu === "categoriesVoitures" ? <hr /> : null}
-                    </li>
-                    <li onClick={() => setMenu("catalogue")}>
-                        <Link to='/catalogue'>Messagerie</Link>
-                        {menu === "catalogue" ? <hr /> : null}
-                    </li>
-                    <li onClick={() => setMenu("contact")}>
-                        <a href='#footer'>Nous contacter</a>
-                        {menu === "contact" ? <hr className='indique' /> : null}
-                    </li>
+            {/* Centre + droite */}
+            <div className={styles.navLogo}>
+                <Link to='/'>
+                    <img src={logo} alt="Logo" />
+                </Link>
+
+                <ul className={styles.navMenu}>
+                    <li onClick={() => setMenu("accueil")}><Link to='/'>Accueil</Link>{menu === "accueil" && <hr />}</li>
+                    <li onClick={() => setMenu("categoriesVoitures")}><a href='/#explore-category'>Catégories</a>{menu === "categoriesVoitures" && <hr />}</li>
+                    <li onClick={() => setMenu("catalogue")}><Link to='/catalogue'>Messagerie</Link>{menu === "catalogue" && <hr />}</li>
+                    <li onClick={() => setMenu("contact")}><a href='#footer'>Nous contacter</a>{menu === "contact" && <hr />}</li>
                 </ul>
 
-               <div className="recherche">
-                <Link to="/recherche">
-                     <button><Search className={styles.responsiveIcon} /></button>
-                </Link>
+                <div className={styles.recherche}>
+                    <Link to="/recherche"><button><Search className={iconStyles.responsiveIcon} /></button></Link>
                 </div>
 
-
-                <div className="nav-login">
-                    <Link to='/login'><button className='bouton-login'>Login</button></Link>
+                <div className={styles.navLogin}>
+                    <Link to='/login'><button className={styles.boutonLogin}>Login</button></Link>
                 </div>
-                <Link to='/cart'><button className='bouton-panier'><ShoppingCart className={styles.responsiveIcon} /></button></Link>
-                <div className="nav-panier-count">0</div>
+
+                <div className={styles.panierContainer}>
+                    <Link to='/cart'><button className={styles.boutonPanier}><ShoppingCart className={iconStyles.responsiveIcon} /></button></Link>
+                    <div className={styles.navPanierCount}>0</div>
+                </div>
             </div>
         </div>
     );

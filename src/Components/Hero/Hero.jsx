@@ -1,52 +1,36 @@
-import React, { useEffect, useState } from 'react'
-import './Hero.css'
-import car1 from '../Assets/voiture.jpg'
-import car2 from '../Assets/voiture2.jpg'
-import car3 from '../Assets/voiture3.jpg'
+import React from "react";
+import "./Hero.css";
 
 const Hero = () => {
-    const slides = [
-        { text: "NEW CAR FOR EVERYONE", image: car1 },
-        { text: "DRIVE YOUR DREAM", image: car2 },
-        { text: "EXPERIENCE SPEED", image: car3 },
-    ];
+  return (
+    <div className="home-wrapper">
 
-    const [index, setIndex] = useState(0);
-    const [subIndex, setSubIndex] = useState(0);
-    const [deleting, setDeleting] = useState(false);
+      <div className="home-container">
 
-    useEffect(() => {
-        const currentText = slides[index].text;
-        const speed = deleting ? 50 : 100;
+        {/* CÔTÉ GAUCHE */}
+        <div className="home-left">
+          <h1 className="slide-in">
+            Drive your <br />
+            <span>dream car</span> today
+          </h1>
 
-        const timeout = setTimeout(() => {
-            if (!deleting && subIndex < currentText.length) {
-                setSubIndex(prev => prev + 1);
-            } else if (deleting && subIndex > 0) {
-                setSubIndex(prev => prev - 1);
-            } else if (!deleting && subIndex === currentText.length) {
-                setTimeout(() => setDeleting(true), 1000);
-            } else if (deleting && subIndex === 0) {
-                setDeleting(false);
-                setIndex((prev) => (prev + 1) % slides.length);
-            }
-        }, speed);
+          <p className="fade-in">
+            Découvrez notre large sélection de véhicules modernes, fiables et 
+            performants. Choisissez le modèle qui correspond à votre style, 
+            votre confort et vos besoins — nous avons ce qu’il vous faut.
+          </p>
 
-        return () => clearTimeout(timeout);
-    }, [subIndex, deleting, index, slides]);
-
-    return (
-        <div className='hero'>
-            <div className="hero-left">
-                <div className="typewriter">
-                    <p>{slides[index].text.substring(0, subIndex)}</p>
-                </div>
-            </div>
-            <div className="hero-right fade">
-                <img src={slides[index].image} alt="Voiture" key={slides[index].image} />
-            </div>
+          <button className="fancy-btn">Explorer maintenant</button>
         </div>
-    )
-}
 
-export default Hero
+        {/* CÔTÉ DROIT : IMAGE */}
+        <div className="home-right fade-up">
+          <img src="/assets/b.jpg" alt="car" />
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+export default Hero;

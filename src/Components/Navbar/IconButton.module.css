@@ -5,6 +5,13 @@
   transition: all 0.2s ease;
 }
 
+@media (max-width: 480px) {
+   .responsiveIcon {
+    width: 10px;
+    height: 10px;
+  }
+}
+
 @media (min-width: 640px) {
   .responsiveIcon {
     width: 16px;
