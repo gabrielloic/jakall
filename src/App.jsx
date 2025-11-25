@@ -17,6 +17,9 @@ import Cart from './Pages/Commande/Carte.jsx';
 import Checkout from './Pages/Commande/Checkout.jsx';
 import Discussion from './Pages/gestion/Message/Envoi.jsx';
 import Zozo from "./Components/Zozo.jsx";
+import Livraison from './gestion/Localisatio_identification/localisation.jsx';
+import RechercheVoitures from './Pages/RechercheVoitures.jsx';
+import Avis from './Pages/Commande/Avis.jsx';
 
 function App() {
   const location = useLocation();
@@ -36,7 +39,11 @@ function App() {
         <Route path="/messagerie" element={<Discussion />} />
         <Route path="/moncompte" element={<MonCompte />} />
         <Route path="/order" element={<PlaceOrder />} />
-        <Route path="/recherche" element={<AdminDashboard />} />
+        <Route path="/recherche" element={<RechercheVoitures />} />
+        <Route path="/iii" element={<AdminDashboard />} />
+        <Route path="/livraison" element={<Livraison />} />
+        <Route path="/avis" element={<Avis />} />
+
 
         <Route path="/produits" element={<Produits />}>
           <Route path=":Idproduit" element={<Produits />} />

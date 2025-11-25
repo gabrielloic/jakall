@@ -11,9 +11,12 @@ import {
   FaBell,
 } from "react-icons/fa";
 import { CalendarDays, CarFront } from "lucide-react";
+import { useNavigate } from "react-router-dom";   // ✅ AJOUT IMPORTANT
 import "./Utilisateurs.css";
 
 const MonCompte = () => {
+  const navigate = useNavigate(); // ✅ pour redirection
+
   const [userData, setUserData] = useState({
     username: "",
     email: "",
@@ -28,7 +31,6 @@ const MonCompte = () => {
   const [reponses, setReponses] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
 
-  // === Chargement initial ===
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("userData"));
     if (storedUser) setUserData(storedUser);
@@ -38,21 +40,18 @@ const MonCompte = () => {
 
     const allReponses = JSON.parse(localStorage.getItem("reponsesAdmin")) || [];
 
-    // Filtrer les réponses qui concernent cet utilisateur
     const userReponses = allReponses.filter(
       (r) => r.to === storedUser?.username || r.to === storedUser?.email
     );
 
     setReponses(userReponses);
 
-    // Compter les messages non lus
     const unread = userReponses.filter((r) => !r.read).length;
     setUnreadCount(unread);
 
     setLoading(false);
   }, []);
 
-  // === Marquer toutes les réponses comme lues ===
   const markAsRead = () => {
     const allReponses = JSON.parse(localStorage.getItem("reponsesAdmin")) || [];
     const updated = allReponses.map((r) => {
@@ -66,7 +65,6 @@ const MonCompte = () => {
     setUnreadCount(0);
   };
 
-  // === Gestion des champs ===
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
@@ -97,8 +95,11 @@ const MonCompte = () => {
       <header className="account-header d-flex align-items-center justify-content-between">
         <h2>Mon Compte</h2>
 
-        {/* Notification messages admin */}
-        <div className="position-relative me-3" style={{ cursor: "pointer" }} onClick={markAsRead}>
+        <div
+          className="position-relative me-3"
+          style={{ cursor: "pointer" }}
+          onClick={markAsRead}
+        >
           <FaBell size={24} className="text-primary" />
           {unreadCount > 0 && (
             <span
@@ -111,9 +112,8 @@ const MonCompte = () => {
         </div>
       </header>
 
-      {/* CONTENU PRINCIPAL */}
       <div className="account-container">
-        {/* PROFIL */}
+        {/* SECTION PROFIL */}
         <div className="profile-section">
           <div className="profile-card">
             <div className="avatar-container">
@@ -170,7 +170,7 @@ const MonCompte = () => {
             </div>
           </div>
 
-          {/* AFFICHAGE DES RÉPONSES ADMIN */}
+          {/* RÉPONSES ADMIN */}
           <div className="messages-section mt-4 p-3 rounded shadow-sm bg-white">
             <h4 className="text-primary mb-3">💬 Réponses de l’administrateur</h4>
             {reponses.length === 0 ? (
@@ -195,7 +195,7 @@ const MonCompte = () => {
           </div>
         </div>
 
-        {/* INFOS / COMMANDES */}
+        {/* SECTION INFOS */}
         <div className="info-section">
           {editing ? (
             <div className="edit-card">
@@ -260,6 +260,39 @@ const MonCompte = () => {
                   ))}
                 </div>
               )}
+
+              {/* ========================================================= */}
+              {/*    📦 BOUTON : VOIR MA LIVRAISON                         */}
+              {/* ========================================================= */}
+              <div
+                className="p-3 mt-3 text-center rounded shadow-sm"
+                style={{
+                  background: "#f1f8ff",
+                  border: "1px solid #bcdfff",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                }}
+                onClick={() => navigate("/livraison")}
+              >
+                📦 Voir ma livraison
+              </div>
+
+              {/* ========================================================= */}
+              {/*    ⭐ BOUTON : DONNER UN AVIS                            */}
+              {/* ========================================================= */}
+              <div
+                className="p-3 mt-3 text-center rounded shadow-sm"
+                style={{
+                  background: "#fff9e6",
+                  border: "1px solid #ffe6a7",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                }}
+                onClick={() => navigate("/avis")}
+              >
+                ⭐ Donner un avis
+              </div>
+
             </div>
           )}
         </div>
