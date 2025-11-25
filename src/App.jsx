@@ -20,6 +20,7 @@ import Zozo from "./Components/Zozo.jsx";
 import Livraison from './gestion/Localisatio_identification/localisation.jsx';
 import RechercheVoitures from './Pages/RechercheVoitures.jsx';
 import Avis from './Pages/Commande/Avis.jsx';
+import PagePresentation from './Pages/PagePresentation.jsx';
 
 function App() {
   const location = useLocation();
@@ -42,13 +43,10 @@ function App() {
         <Route path="/recherche" element={<RechercheVoitures />} />
         <Route path="/iii" element={<AdminDashboard />} />
         <Route path="/livraison" element={<Livraison />} />
-        <Route path="/avis" element={<Avis />} />
-
-
+        <Route path="/avis" element={<Avis />} /><Route path='/PagePresentation' element={<PagePresentation/>} />
         <Route path="/produits" element={<Produits />}>
           <Route path=":Idproduit" element={<Produits />} />
         </Route>
-
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<LoginSignup />} />
         <Route path="/checkout" element={<Checkout />} />

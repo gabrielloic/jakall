@@ -1,0 +1,107 @@
+/* Arrière-plan bleu ciel pour toute la page */
+.presentation {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: "Poppins", Arial, sans-serif;
+  color: #222;
+  background: #d9f1ff;             /* bleu ciel doux */
+  border-radius: 14px;
+  padding: 30px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+.presentation h1 {
+  text-align: center;
+  font-size: 1.9rem;
+  margin-bottom: 25px;
+  color: #0a3d62;
+  font-weight: 600;
+}
+
+/* Conteneur avec fond blanc */
+.corps {
+  background: white;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* IMAGE */
+.corps img {
+  width: 65%;
+  max-width: 300px;
+  border-radius: 12px;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.15);
+  transition: transform 0.25s ease;
+}
+
+.corps img:hover {
+  transform: scale(1.03);
+}
+
+/* DESCRIPTION */
+.textePresentation {
+  width: 90%;
+  max-width: 550px;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  background: #f7f9fa;
+  padding: 16px 18px;
+  border-radius: 10px;
+  color: #333;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* VIDÉO (plus petite !) */
+.corps video {
+  width: 55%;          /* Taille réduite */
+  max-width: 300px;    /* Taille max beaucoup plus petite */
+  border-radius: 10px;
+  box-shadow: 0 5px 22px rgba(0, 0, 0, 0.12);
+}
+.addButton {
+  margin-top: 15px;
+  padding: 12px 26px;
+  background-color: #0a74d6;      /* Bleu moderne */
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.2s ease;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+}
+
+.addButton:hover {
+  background-color: #095cab;
+  transform: scale(1.05);
+}
+
+.addButton:active {
+  transform: scale(0.97);
+}
+
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+
+  .presentation h1 {
+    font-size: 1.5rem;
+  }
+
+  .corps video {
+    width: 75%;
+    max-width: 260px;
+  }
+
+  .corps img {
+    width: 80%;
+  }
+}

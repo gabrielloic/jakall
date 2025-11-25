@@ -45,7 +45,7 @@ const Navbar = () => {
                 <ul className={styles.navMenu}>
                     <li onClick={() => setMenu("accueil")}><Link to='/accueil'>Accueil</Link>{menu === "accueil" && <hr />}</li>
                     <li onClick={() => setMenu("categoriesVoitures")}><a href='/accueil#explore-category'>Catégories</a>{menu === "categoriesVoitures" && <hr />}</li>
-                    <li onClick={() => setMenu("messagerie")}><Link to='/messagerie'>Messagerie</Link>{menu === "messagerie" && <hr />}</li>
+                    <li onClick={() => setMenu("catalogue")}><Link to='/messagerie'>Messagerie</Link>{menu === "catalogue" && <hr />}</li>
                     <li onClick={() => setMenu("contact")}><a href='#footer'>Nous contacter</a>{menu === "contact" && <hr />}</li>
                 </ul>
 

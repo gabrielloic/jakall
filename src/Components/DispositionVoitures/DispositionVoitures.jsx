@@ -16,7 +16,7 @@ const DispositionVoitures = ({category}) => {
             <div className="cars-display-list">
                 {all_cars.map((item, index) =>{
                     if(category==="All"|| category===item.categorie){
-                        return <Item key={index} id={item.id} nom={item.nom} image={item.image} category={item.categorie} description={item.description} couleur={item.couleur} prix={item.prix}  />
+                        return <Item key={index} id={item.id} nom={item.nom} image={item.image} category={item.categorie} description={item.description} couleur={item.couleur} prix={item.prix} video={item.video} texte={item.texte}  />
                     }
 
                 })}

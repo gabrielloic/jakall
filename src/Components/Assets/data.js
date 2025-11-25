@@ -24,7 +24,7 @@ export const menu_list = [
         imageMenu: v6
     },
     {
-        nomMenu: "Sport",
+        nomMenu: "Sports",
         imageMenu: v7,
     },
     {

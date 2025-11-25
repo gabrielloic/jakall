@@ -1,203 +1,147 @@
-import React, { useState, useEffect } from "react";
+// src/pages/Cart.jsx (ou ton chemin actuel)
+import React, { useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ShoppingCart, Trash2, Plus, Minus, CreditCard } from "lucide-react";
-import { voitures } from "../../gestion/Voitures";
+import { ShopContext } from "../../Context/ShopContext";
 
 export default function Cart() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const userFromState =
-    state?.user || JSON.parse(localStorage.getItem("userData"));
+  const user = state?.user || JSON.parse(localStorage.getItem("userData") || "{}");
 
-  // --- PANIER LOCAL ---
-  const [cart, setCart] = useState(() => {
-    const saved = localStorage.getItem("cart_v1");
-    return saved ? JSON.parse(saved) : [];
-  });
+  const {
+    addToCart,
+    removeFromCart,
+    updateCartItemQuantity,
+    clearCart,
+    getTotalCartAmount,
+    getCartArray,
+    all_cars,
+  } = useContext(ShopContext);
 
-  // --- SAUVEGARDE AUTO ---
-  useEffect(() => {
-    localStorage.setItem("cart_v1", JSON.stringify(cart));
-  }, [cart]);
+  const cart = getCartArray();
+  const subtotal = getTotalCartAmount();
 
-  // --- AJOUT PRODUIT ---
-  const addProduct = (p) => {
-    setCart((prev) => {
-      const found = prev.find((x) => x.id === p.id);
-      if (found) {
-        return prev.map((x) =>
-          x.id === p.id ? { ...x, qty: x.qty + 1 } : x
-        );
-      }
-      return [...prev, { ...p, qty: 1 }];
-    });
-  };
-
-  // --- RETIRER 1 PRODUIT ---
-  const removeOne = (id) => {
-    setCart((prev) =>
-      prev
-        .map((x) => (x.id === id ? { ...x, qty: x.qty - 1 } : x))
-        .filter((x) => x.qty > 0)
-    );
-  };
-
-  // --- SUPPRIMER UN PRODUIT ENTIER ---
-  const removeItem = (id) => {
-    setCart((prev) => prev.filter((x) => x.id !== id));
-  };
-
-  // --- CALCUL TOTAL ---
-  const subtotal = cart.reduce((s, it) => s + (it.prix || 0) * (it.qty || 0), 0);
-
-  // --- REDIRECTION VERS CHECKOUT ---
   const gotoCheckout = () => {
-    if (cart.length === 0) {
-      alert("Votre panier est vide !");
-      return;
-    }
-    navigate("/checkout", {
-      state: { cart, user: userFromState, total: subtotal },
-    });
+    if (cart.length === 0) return alert("Votre panier est vide !");
+    navigate("/checkout", { state: { cart, user, total: subtotal } });
   };
 
   return (
-    <div className="container my-5 p-4 rounded-4 shadow bg-white">
-      {/* === HEADER === */}
-      <div className="d-flex flex-wrap justify-content-between align-items-center mb-4">
-        <div className="d-flex align-items-center gap-2">
-          <ShoppingCart size={28} className="text-primary" />
-          <h2 className="fw-bold text-primary mb-0">Mon Panier</h2>
-        </div>
-        {userFromState && (
-          <div className="small text-muted mt-2 mt-md-0">
-            Connecté en tant que <strong>{userFromState.username}</strong>
-          </div>
-        )}
-      </div>
-
-      <div className="row g-4">
-        {/* === PRODUITS DISPONIBLES === */}
+    <div className="container my-5">
+      <div className="row justify-content-center">
         <div className="col-lg-8">
-          <h4 className="fw-semibold text-secondary mb-3">Nos Véhicules</h4>
-          <div className="row g-4">
-            {voitures.map((p) => (
-              <div className="col-12 col-sm-6 col-md-4" key={p.id}>
-                <div className="card border-0 shadow-sm h-100 text-center p-3 rounded-4">
-                  <img
-                    src={p.image || "/assets/o.jpg"}
-                    alt={p.nom}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "/assets/o.jpg";
-                    }}
-                    className="img-fluid rounded-3 mb-3"
-                    style={{
-                      width: "100%",
-                      height: "160px",
-                      objectFit: "cover",
-                      objectPosition: "center",
-                      backgroundColor: "#f8f9fa",
-                    }}
-                  />
-                  <h5 className="fw-bold">{p.nom}</h5>
-                  <p className="text-muted small mb-1">{p.categorie}</p>
-                  <p className="text-secondary small mb-2 text-truncate">
-                    {p.description}
-                  </p>
-                  <p className="fw-semibold text-primary mb-3">
-                    {p.prix.toLocaleString()} FCFA
-                  </p>
-                  <button
-                    className="btn btn-outline-primary w-100 rounded-3"
-                    onClick={() => addProduct(p)}
-                  >
-                    Ajouter au panier
-                  </button>
-                </div>
-              </div>
-            ))}
+
+          {/* === EN-TÊTE === */}
+          <div className="d-flex align-items-center gap-3 mb-5">
+            <ShoppingCart size={36} className="text-primary" />
+            <h2 className="fw-bold mb-0">Mon Panier</h2>
+            {cart.length > 0 && (
+              <span className="badge bg-primary rounded-pill fs-6">
+                {cart.length}
+              </span>
+            )}
           </div>
-        </div>
 
-        {/* === RÉSUMÉ DU PANIER === */}
-        <div className="col-lg-4">
-          <div className="card border-0 shadow-sm p-4 rounded-4 bg-light h-100">
-            <h4 className="text-primary fw-bold mb-3 text-center">Résumé</h4>
-
-            {cart.length === 0 ? (
-              <p className="text-muted text-center">Votre panier est vide 🛒</p>
-            ) : (
-              <>
-                <div className="list-group mb-3">
-                  {cart.map((it) => (
+          {/* === PANIER VIDE === */}
+          {cart.length === 0 ? (
+            <div className="text-center py-5">
+              <ShoppingCart size={80} className="text-muted mb-4 opacity-50" />
+              <h4 className="text-muted">Votre panier est vide</h4>
+              <button
+                className="btn btn-outline-primary mt-3"
+                onClick={() => navigate("/accueil")}
+              >
+                Continuer mes achats
+              </button>
+            </div>
+          ) : (
+            <>
+              {/* === LISTE DES ARTICLES === */}
+              <div className="list-group mb-4">
+                {cart.map((item) => {
+                  const car = all_cars.find((c) => c.id === item.id);
+                  return (
                     <div
-                      key={it.id}
-                      className="list-group-item d-flex justify-content-between align-items-center border-0 mb-2 rounded-3"
-                      style={{ backgroundColor: "#fdfdfd" }}
+                      key={item.id}
+                      className="list-group-item d-flex align-items-center gap-4 p-4 shadow-sm rounded-3 mb-3"
                     >
-                      <div>
-                        <strong>{it.nom}</strong>
-                        <div className="text-muted small">
-                          {it.prix.toLocaleString()} FCFA
-                        </div>
+                      <img
+                        src={car?.image || "/assets/o.jpg"}
+                        alt={item.nom}
+                        className="rounded-3"
+                        style={{ width: "100px", height: "70px", objectFit: "cover" }}
+                      />
+
+                      <div className="flex-grow-1">
+                        <h5 className="fw-bold mb-1">{item.nom}</h5>
+                        <small className="text-muted">
+                          {item.prix.toLocaleString()} $ l'unité
+                        </small>
                       </div>
-                      <div className="d-flex align-items-center gap-2">
+
+                      <div className="d-flex align-items-center gap-3">
                         <button
-                          className="btn btn-sm btn-outline-secondary"
-                          onClick={() => removeOne(it.id)}
+                          className="btn btn-outline-secondary btn-sm"
+                          onClick={() => removeFromCart(item.id)}
                         >
-                          <Minus size={14} />
+                          <Minus size={18} />
                         </button>
-                        <span className="fw-bold">{it.qty}</span>
+                        <span className="fw-bold fs-5 mx-2">{item.qty}</span>
                         <button
-                          className="btn btn-sm btn-outline-secondary"
-                          onClick={() => addProduct(it)}
+                          className="btn btn-outline-secondary btn-sm"
+                          onClick={() => addToCart(item.id)}
                         >
-                          <Plus size={14} />
+                          <Plus size={18} />
                         </button>
+
                         <button
-                          className="btn btn-sm btn-outline-danger"
-                          onClick={() => removeItem(it.id)}
+                          className="btn btn-outline-danger btn-sm ms-3"
+                          onClick={() => updateCartItemQuantity(item.id, 0)}
                         >
-                          <Trash2 size={14} />
+                          <Trash2 size={18} />
                         </button>
+                      </div>
+
+                      <div className="text-end">
+                        <strong className="text-primary fs-5">
+                          {(item.prix * item.qty).toLocaleString()} $
+                        </strong>
                       </div>
                     </div>
-                  ))}
+                  );
+                })}
+              </div>
+
+              {/* === TOTAL & BOUTONS === */}
+              <div className="card border-0 shadow-sm p-4">
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                  <h4 className="fw-bold mb-0">Total</h4>
+                  <h3 className="text-primary fw-bold mb-0">
+                    {subtotal.toLocaleString()} $
+                  </h3>
                 </div>
 
-                <div className="border-top pt-3 mb-3 d-flex justify-content-between">
-                  <span className="fw-semibold">Sous-total :</span>
-                  <span className="fw-bold text-primary">
-                    {subtotal.toLocaleString()} FCFA
-                  </span>
-                </div>
-
-                {/* === BOUTON VERS CHECKOUT === */}
                 <button
-                  className="btn btn-primary w-100 mb-2 rounded-3 py-2"
+                  className="btn btn-primary w-100 py-3 fw-bold"
                   onClick={gotoCheckout}
                 >
-                  <CreditCard size={18} className="me-2" />
+                  <CreditCard className="me-2" />
                   Passer au paiement
                 </button>
 
                 <button
-                  className="btn btn-outline-danger w-100 rounded-3"
-                  onClick={() => {
-                    setCart([]);
-                    localStorage.removeItem("cart_v1");
-                  }}
+                  className="btn btn-outline-danger w-100 mt-3"
+                  onClick={clearCart}
                 >
                   Vider le panier
                 </button>
-              </>
-            )}
-          </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
   );
-}
+} 
