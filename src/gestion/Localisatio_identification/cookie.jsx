@@ -14,7 +14,7 @@ const CookieConsent = ({ onAccepted }) => {
       const clientIp = data.ip;
 
       // 🔹 Envoi des infos au serveur PHP
-      await fetch("http://localhost/t.php", {
+      await fetch("http://172.20.10.2/t.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
